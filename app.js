@@ -8,6 +8,27 @@ const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 let state = load();
+
+// ?demo=builder or ?demo=provider: open straight into a filled-in demo (for presentations).
+const demo = new URLSearchParams(location.search).get("demo");
+if (demo === "builder" || demo === "provider") {
+  const b = demo === "builder";
+  state.profile = b ? { role: demo, trades: ["Labourers", "Masons", "Bar Benders"], city: "Mumbai" } : { role: demo, trades: ["Electricians", "Plumbers"], city: "Hyderabad" };
+  const other = b ? PROVIDERS[0] : PROJECTS[4];
+  state.threads = [{
+    id: "demo-" + demo, otherId: other.id, kind: b ? "p" : "j", name: b ? other.name : other.company, contact: b ? other.owner : "Site manager", city: other.city,
+    status: "accepted", request: b ? { crew: { Labourers: 20, Masons: 10, "Bar Benders": 12 }, start: "Dec 01 2026" } : { crew: { Electricians: 15, Plumbers: 8 }, start: "Jan 01 2027" },
+    messages: [
+      { from: "system", text: "Request sent · " + (b ? 42 : 23) + " workers" },
+      { from: "me", text: b ? "Namaste, we need a crew for our site in Mumbai. Can you mobilise by the start date?" : "Namaste, we can supply experienced workers for this project.", time: "10:02" },
+      { from: "them", text: b ? "Thanks for the request! These workers are free from that date. Our supervisor can visit your site this week." : "Thanks — can you share ID proofs and safety training details?", time: "10:05" },
+      { from: "them", text: "All good from our side. Request accepted ✅", time: "10:07" },
+      { from: "system", text: "🎉 Crew booked · next: share site address & sign the work order" },
+    ],
+  }];
+  save();
+  history.replaceState(null, "", location.pathname + (location.hash || "#/find"));
+}
 function load() {
   try { return { profile: null, threads: [], posts: [], ...JSON.parse(localStorage.getItem(KEY)) }; }
   catch { return { profile: null, threads: [], posts: [] }; }
