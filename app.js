@@ -72,10 +72,10 @@ function home() {
   </div></section>
   <section class="block"><div class="wrap">
     <div class="stats reveal">
-      <div class="stat"><b data-count="${workers}">0</b><span>workers ready</span></div>
-      <div class="stat"><b data-count="${PROVIDERS.length}">0</b><span>crew providers</span></div>
-      <div class="stat"><b data-count="${allProjects().length}">0</b><span>open projects</span></div>
-      <div class="stat"><b data-count="${CITIES.length}">0</b><span>cities</span></div>
+      <div class="stat"><b data-count="${workers}">${(workers).toLocaleString("en-IN")}</b><span>workers ready</span></div>
+      <div class="stat"><b data-count="${PROVIDERS.length}">${(PROVIDERS.length).toLocaleString("en-IN")}</b><span>crew providers</span></div>
+      <div class="stat"><b data-count="${allProjects().length}">${(allProjects().length).toLocaleString("en-IN")}</b><span>open projects</span></div>
+      <div class="stat"><b data-count="${CITIES.length}">${(CITIES.length).toLocaleString("en-IN")}</b><span>cities</span></div>
     </div>
     <h2 class="reveal">How it works</h2>
     <div class="steps">
